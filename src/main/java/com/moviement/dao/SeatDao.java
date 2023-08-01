@@ -10,6 +10,7 @@ import com.moviement.dto.Member;
 import com.moviement.dto.MovieArticle;
 import com.moviement.dto.MovieSeat;
 
+
 public class SeatDao extends Dao {
 	private DBConnection dbConnection;
 
@@ -17,7 +18,7 @@ public class SeatDao extends Dao {
 		dbConnection = Container.getDBConnection();
 	}
 
-	public int doTicketing(String movieTitle, String[] seats) {
+	public int doTicketing(String movieTitle, String[] seats, float personPrice) {
 		Member loginedMember = Container.getSession().getLoginedMember();
 
 		int id;
@@ -33,7 +34,8 @@ public class SeatDao extends Dao {
 			sb.append(String.format("seat = '%s', ", seat));
 			sb.append(String.format("movieTitle = '%s', ", movieTitle));
 			sb.append(String.format("nickName = '%s', ", loginedMember.nickName));
-			sb.append(String.format("enabledSeat = %d; ", 1));
+			sb.append(String.format("enabledSeat = %d, ", 1));
+			sb.append(String.format("price = %.2f ", personPrice));
 			
 			dbConnection.insert(sb.toString());
 		}
@@ -117,7 +119,8 @@ public class SeatDao extends Dao {
 		sb.append(String.format("seatNum = null, "));
 		sb.append(String.format("movieTitle = null, "));
 		sb.append(String.format("nickName = null, "));
-		sb.append(String.format("enabledSeat = %d ", 0));
+		sb.append(String.format("enabledSeat = %d ,", 0));
+		sb.append(String.format("price = %.1f ", 0));
 
 		return dbConnection.insert(sb.toString());
 	}
@@ -159,5 +162,19 @@ public class SeatDao extends Dao {
 			return new MovieSeat(row);
 		}
 		return null;
+	}
+	
+	public MovieSeat getForPrintSeats(int selectNum) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("SELECT * FROM movieSeats "));
+		sb.append(String.format("WHERE id = '%d' ", selectNum));
+
+		Map<String, Object> row = dbConnection.selectRow(sb.toString());
+
+		if (row.isEmpty()) {
+			return null;
+		}
+		return new MovieSeat(row);
 	}
 }

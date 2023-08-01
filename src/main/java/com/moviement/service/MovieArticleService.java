@@ -34,4 +34,8 @@ public class MovieArticleService {
 	public MovieArticle getMovieArticle(int id) {
 		return movieArticleDao.getMovieArticle(id);
 	}
+	
+	public void delete(int id) {
+		movieArticleDao.delete(id);
+	}
 }

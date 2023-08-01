@@ -71,7 +71,8 @@ CREATE TABLE `member` (
 	Email CHAR(100) NOT NULL UNIQUE,
 	nickName CHAR(100) NOT NULL UNIQUE,
 	loginPw CHAR(100) NOT NULL,
-	`name` CHAR(100) NOT NULL
+	`name` CHAR(100) NOT NULL,
+	grade CHAR(100) NOT NULL
 );
 
 INSERT INTO `member`
@@ -81,7 +82,8 @@ loginId = 'admin',
 loginPw = 'admin',
 Email = 'admin',
 nickName = '관리자',
-`name` = '관리자';
+`name` = '관리자',
+grade = 'VIP';
 
 INSERT INTO `member`
 SET regDate = NOW(),
@@ -90,7 +92,8 @@ loginId = 'phj',
 loginPw = 'phj',
 Email = 'phj',
 nickName = '박현재',
-`name` = '박현재';
+`name` = '박현재',
+grade = 'silver';
 
 INSERT INTO `member`
 SET regDate = NOW(),
@@ -99,7 +102,8 @@ loginId = 'sdw',
 loginPw = 'sdw',
 Email = 'sdw',
 nickName = '신동우',
-`name` = '신동우';
+`name` = '신동우',
+grade = 'bronze';
 
 INSERT INTO `member`
 SET regDate = NOW(),
@@ -108,7 +112,8 @@ loginId = 'syj',
 loginPw = 'syj',
 Email = 'syj',
 nickName = '심유정',
-`name` = '심유정';
+`name` = '심유정',
+grade = 'gold';
 
 INSERT INTO `member`
 SET regDate = NOW(),
@@ -117,7 +122,8 @@ loginId = 'ljj',
 loginPw = 'ljj',
 Email = 'ljj',
 nickName = '이재준',
-`name` = '이재준';
+`name` = '이재준',
+grade = 'VIP';
 
 SELECT * FROM `member`;
 
@@ -191,7 +197,8 @@ CREATE TABLE movieSeats (
 	seat CHAR(100),
 	movieTitle CHAR(100),
 	nickName CHAR(100) NOT NULL,
-	enabledSeat BOOL
+	enabledSeat BOOL,
+	price FLOAT(10, 2) UNSIGNED NOT NULL
 );
 
 SELECT * FROM movieSeats;

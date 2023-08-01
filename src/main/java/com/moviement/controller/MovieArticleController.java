@@ -91,6 +91,7 @@ public class MovieArticleController extends Controller {
 			while (true) {
 				System.out.println("관리자 전용 페이지입니다.\n");
 				System.out.println("상영 중인 영화 목록에 영화 추가를 원하시면 1을 입력해주세요.");
+				System.out.println("상영 중인 영화 목록에 영화 삭제를 원하시면 2을 입력해주세요.");
 				System.out.println("이전으로 돌아가시려면 9를 입력해주세요.");
 				System.out.print("입력 : ");
 				selectNum = sc.nextInt();
@@ -99,7 +100,10 @@ public class MovieArticleController extends Controller {
 				if (selectNum == 1) {
 					doWriteMovieList();
 					break;
-				} else if (selectNum == 9) {
+				}else if (selectNum == 2) {
+					doDeleteMovie();
+					break; 
+				}else if (selectNum == 9) {
 					System.out.println("이전 단계로 돌아갑니다.\n");
 					break;
 				} else if (selectNum != 1 && selectNum != 9) {
@@ -136,6 +140,44 @@ public class MovieArticleController extends Controller {
 		}
 	}
 
+	private void doDeleteMovie() {
+		List<MovieArticle> forPrintMovieArticles = movieArticleService.getMovieArticles();
+		Member loginedMember = Container.getSession().getLoginedMember();
+		
+		if(loginedMember.loginId.equals("admin")==false) {
+			System.out.println("권한이 없습니다.");
+			return;
+		}
+		MovieArticle movieArticle;
+		int lastMovieId = 0;
+		System.out.print("=== === === Movie List === === ===\n\n");
+		System.out.println(" 번호 | 제목");
+		
+		for (int i = 0; i < forPrintMovieArticles.size(); i++) {
+			movieArticle = forPrintMovieArticles.get(i);
+			lastMovieId = movieArticle.id;
+			System.out.printf("%3d | %s\n", movieArticle.id, movieArticle.title);
+		
+//			j++;
+		}
+		
+		System.out.println();
+		System.out.println(lastMovieId);
+		int deleteMovieNum = 0;
+		while(true) {
+			System.out.println("삭제할 영화 번호 선택 : ");
+			deleteMovieNum = sc.nextInt();
+			
+			if(deleteMovieNum > lastMovieId) {
+				System.out.println("다시 입력하세요.");
+				continue;
+			}
+			break;
+		}
+		movieArticleService.delete(deleteMovieNum);
+		System.out.println("영화가 삭제되었습니다.");
+	}
+	
 	private void doRecommend() {
 		List<MovieArticle> forPrintGetMovieArticles = movieArticleService.getMovieArticles();
 		MovieArticle recommend;
@@ -150,7 +192,9 @@ public class MovieArticleController extends Controller {
 			System.out.println("로그인 후 이용해주세요.\n");
 			return;
 		}
-
+		Member loginedMember = Container.getSession().getLoginedMember();
+		setGrade();
+		
 		List<MovieArticle> forPrintGetMovieArticles = movieArticleService.getMovieArticles();
 
 		while (true) {
@@ -298,7 +342,12 @@ public class MovieArticleController extends Controller {
 					}
 					System.out.println("|\n");
 
-					System.out.printf("선택하신 좌석은 %s입니다.\n\n", Arrays.toString(seatStrArr));
+					String grade = loginedMember.grade;
+					float dc = setDc();
+					float price = forPrintGetMovieArticles.get(selectNum - 1).price;
+					float personPrice = price - price*dc;
+					
+					System.out.printf("\n선택하신 좌석은 %s, 예매 가격은 %s 할인가 적용 %.2f 입니다.\n\n", Arrays.toString(seatStrArr),grade,personPrice*persons);
 					System.out.println("1. 예매하기");
 					System.out.println("9. 이전 단계로\n");
 					System.out.print("입력 : ");
@@ -306,7 +355,7 @@ public class MovieArticleController extends Controller {
 
 					switch (yesOrNo) {
 					case 1:
-						Container.seatService.doTicketing(movieTitle, seatStrArr);
+						Container.seatService.doTicketing(movieTitle, seatStrArr, personPrice);
 						System.out.println("\n감사합니다. 예매가 완료되었습니다. 예매 내역은 마이 페이지를 확인해주세요.\n");
 						break;
 					case 9:

@@ -6,6 +6,7 @@ import com.moviement.container.Container;
 import com.moviement.dao.SeatDao;
 import com.moviement.dto.MovieSeat;
 
+
 public class SeatService {
 	private SeatDao seatDao;
 
@@ -25,8 +26,8 @@ public class SeatService {
 		return seatDao.getForPrintSeat(movieTitle, seatStrArr);
 	}
 
-	public int doTicketing(String movieTitle, String[] seats) {
-		return seatDao.doTicketing(movieTitle, seats);
+	public int doTicketing(String movieTitle, String[] seats, float personPrice) {
+		return seatDao.doTicketing(movieTitle, seats, personPrice);
 	}
 	
 	public MovieSeat getSeat(int id) {
@@ -47,5 +48,8 @@ public class SeatService {
 	
 	public int doWrite() {
 		return seatDao.doWrite();
+	}
+	public MovieSeat getForPrintSeat(int selectNum) {
+		return seatDao.getForPrintSeats(selectNum);
 	}
 }

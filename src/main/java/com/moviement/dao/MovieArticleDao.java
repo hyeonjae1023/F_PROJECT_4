@@ -56,4 +56,13 @@ public class MovieArticleDao extends Dao {
 		}
 		return new MovieArticle(row);
 	}
+	
+	public int delete(int id) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("DELETE FROM movieArticle "));
+		sb.append(String.format("WHERE id = '%d' ", id));
+
+		return dbConnection.delete(sb.toString());
+	}
 }
