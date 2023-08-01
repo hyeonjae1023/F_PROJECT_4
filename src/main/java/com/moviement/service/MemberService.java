@@ -1,8 +1,11 @@
 package com.moviement.service;
 
+import java.util.List;
+
 import com.moviement.container.Container;
 import com.moviement.dao.MemberDao;
 import com.moviement.dto.Member;
+import com.moviement.dto.Review;
 
 public class MemberService {
 	private MemberDao memberDao;
@@ -46,5 +49,13 @@ public class MemberService {
 	
 	public void doDelete(int id) {
 		memberDao.doDelete(id);
+	}
+
+	public List<Member> getMembers() {
+		return memberDao.getMembers();
+	}
+
+	public Member getMember(int id) {
+		return memberDao.getMember(id);
 	}
 }

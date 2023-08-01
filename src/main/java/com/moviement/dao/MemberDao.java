@@ -1,10 +1,13 @@
 package com.moviement.dao;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.moviement.container.Container;
 import com.moviement.db.DBConnection;
 import com.moviement.dto.Member;
+import com.moviement.dto.Review;
 
 public class MemberDao {
 	private DBConnection dbConnection;
@@ -115,5 +118,33 @@ public class MemberDao {
 		sb.append(String.format("WHERE id = '%d' ", id));
 
 		return dbConnection.delete(sb.toString());
+	}
+
+	public List<Member> getMembers() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("SELECT * FROM `member`"));
+		List<Member> members = new ArrayList<>();
+		List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
+
+		for (Map<String, Object> row : rows) {
+			members.add(new Member(row));
+		}
+		return members;
+	}
+
+	public Member getMember(int id) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("SELECT * "));
+		sb.append(String.format("FROM `member` "));
+		sb.append(String.format("WHERE id = '%d' ", id));
+
+		Map<String, Object> row = dbConnection.selectRow(sb.toString());
+
+		if (row.isEmpty()) {
+			return null;
+		}
+		return new Member(row);
 	}
 }

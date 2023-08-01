@@ -85,14 +85,20 @@ CREATE TABLE `movieSeats` (
   `enabledSeat` tinyint(1) DEFAULT NULL,
   `price` float(10,2) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `movieSeats` */
 
 insert  into `movieSeats`(`id`,`regDate`,`updateDate`,`seat`,`movieTitle`,`nickName`,`enabledSeat`,`price`) values 
 (2,'2023-08-01 20:53:42','2023-08-01 20:53:42','A2','범죄도시3','user1',1,15000.00),
 (3,'2023-08-01 20:57:17','2023-08-01 20:57:17','A1','범죄도시3','user1',1,14250.00),
-(4,'2023-08-01 20:57:17','2023-08-01 20:57:17','A3','범죄도시3','user1',1,14250.00);
+(4,'2023-08-01 20:57:17','2023-08-01 20:57:17','A3','범죄도시3','user1',1,14250.00),
+(5,'2023-08-01 21:04:22','2023-08-01 21:04:22','A1','엘리멘탈','user1',1,14250.00),
+(6,'2023-08-01 21:04:22','2023-08-01 21:04:22','A2','엘리멘탈','user1',1,14250.00),
+(7,'2023-08-01 21:04:22','2023-08-01 21:04:22','A3','엘리멘탈','user1',1,14250.00),
+(8,'2023-08-01 21:04:46','2023-08-01 21:04:46','A1','여름날 우리','user1',1,13500.00),
+(9,'2023-08-01 21:04:46','2023-08-01 21:04:46','A2','여름날 우리','user1',1,13500.00),
+(10,'2023-08-01 21:04:46','2023-08-01 21:04:46','A3','여름날 우리','user1',1,13500.00);
 
 /*Table structure for table `review` */
 

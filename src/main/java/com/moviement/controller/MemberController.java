@@ -30,7 +30,32 @@ public class MemberController extends Controller {
 
 	public void doAction(int selectNum) {
 		this.selectNum = selectNum;
-
+		
+		Member loginedMember = Container.getSession().getLoginedMember();
+		
+//		if (loginedMember.nickName.equals("관리자")) {
+//			while (true) {
+//				System.out.println("=== === === A D M I N : M O V I E === === ===");
+//				System.out.println("\n관리자 전용 페이지입니다.\n");
+//				System.out.println("회원 목록을 보시려면 2을 입력해주세요.");
+//				System.out.println("이전으로 돌아가시려면 9를 입력해주세요.");
+//				System.out.print("입력 : ");
+//				selectNum = sc.nextInt();
+//				System.out.println();
+//
+//				if (selectNum == 2) {
+//					showMemberList();
+//					break;
+//				} else if (selectNum == 9) {
+//					System.out.println("이전 단계로 돌아갑니다.\n");
+//					break;
+//				} else if (selectNum != 2 && selectNum != 9) {
+//					System.out.println("\n다시 입력해주세요.");
+//					continue;
+//				}
+//			}
+//		}
+		
 		System.out.printf("=== === === M E M B E R === === ===\n\n");
 		System.out.println("1. 회원가입");
 		System.out.println("2. 로그인");
@@ -60,6 +85,71 @@ public class MemberController extends Controller {
 			System.out.println("다시 입력해주세요.\n");
 			break;
 		}
+	}
+
+//	private void showMemberList() {
+//		List<Member> forPrintMembers = memberService.getMembers();
+//		Member member;
+//		Member loginedMember = Container.getSession().getLoginedMember();
+//		
+//		
+//		System.out.printf("=== === === === M E M B E R S === === === ===\n\n");
+//		System.out.println(" 번호 | 아이디 | 닉네임 | 이름");
+//		for (int i = 0; i <= forPrintMembers.size() - 1; i++) {
+//			member = forPrintMembers.get(i);
+//
+//			System.out.printf("%5d | %3s | %4.1f | %s\n", member.id, member.loginId, member.nickName, member.name);
+//		}
+//		System.out.println();
+//		
+//		if (loginedMember.nickName.equals("관리자")) {
+//			while (true) {
+//				System.out.println("관리자 전용 페이지입니다.\n");
+//				System.out.println("회원 삭제를 원하시면 1을 입력해주세요.");
+//				System.out.println("이전으로 돌아가시려면 9를 입력해주세요.");
+//				System.out.print("입력 : ");
+//				selectNum = sc.nextInt();
+//				System.out.println();
+//
+//				if (selectNum == 1) {
+//					doMemberDelete();
+//					break;
+//				}else if (selectNum == 9) {
+//					System.out.println("이전 단계로 돌아갑니다.\n");
+//					break;
+//				} else if (selectNum != 1 && selectNum != 9) {
+//					System.out.println("\n다시 입력해주세요.");
+//					continue;
+//				}
+//				break;
+//			}
+//		}
+//	}
+
+	private void doMemberDelete() {
+		if (Container.getSession().isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.\n");
+			return;
+		}
+
+		Member loginedMember = Container.getSession().getLoginedMember();
+		List<Member> forPrintMembers = memberService.getMembers();
+		Member member;
+
+		System.out.println(" 번호 | 아이디 | 닉네임 | 이름");
+		for (int i = 0; i <= forPrintMembers.size() - 1; i++) {
+			member = forPrintMembers.get(i);
+			System.out.printf("%3d | %s | %s | %s \n", member.id, member.loginId, member.nickName, member.name);
+		}
+		System.out.println();
+		System.out.println("회원 선택 : ");
+		int choiceMemberId = sc.nextInt();
+
+		Member getMember = memberService.getMember(choiceMemberId);
+		String nickName = getMember.name;
+
+		reviewService.delete(choiceMemberId);
+		System.out.println("회원이 삭제 되었습니다.");
 	}
 
 	private boolean isJoinableLoginId(String loginId) {

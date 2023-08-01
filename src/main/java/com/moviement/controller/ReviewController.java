@@ -30,6 +30,30 @@ public class ReviewController extends Controller {
 	public void doAction(int selectNum) {
 		this.selectNum = selectNum;
 
+		Member loginedMember = Container.getSession().getLoginedMember();
+		
+//		if (loginedMember.nickName.equals("관리자")) {
+//			while (true) {
+//				System.out.println("=== === === A D M I N : M O V I E === === ===");
+//				System.out.println("\n관리자 전용 페이지입니다.\n");
+//				System.out.println("리뷰 목록을 보시려면 1을 입력해주세요.");
+//				System.out.println("이전으로 돌아가시려면 9를 입력해주세요.");
+//				System.out.print("입력 : ");
+//				selectNum = sc.nextInt();
+//				System.out.println();
+//
+//				if (selectNum == 1) {
+//					showCommentList();
+//					break;
+//				} else if (selectNum == 9) {
+//					System.out.println("이전 단계로 돌아갑니다.\n");
+//					break;
+//				} else if (selectNum != 1 && selectNum != 9) {
+//					System.out.println("\n다시 입력해주세요.");
+//					continue;
+//				}
+//			}
+//		}
 		if (selectNum == 3) {
 			showCommentList();
 		}
@@ -38,7 +62,9 @@ public class ReviewController extends Controller {
 	private void showCommentList() {
 		List<Review> forPrintReviews = reviewService.getReviews();
 		Review review;
-
+		Member loginedMember = Container.getSession().getLoginedMember();
+		
+		
 		System.out.printf("=== === === === R E V I E W === === === ===\n\n");
 		System.out.println(" 번호 | 닉네임 | 평점 | 영화 이름");
 		for (int i = 0; i <= forPrintReviews.size() - 1; i++) {
@@ -48,6 +74,29 @@ public class ReviewController extends Controller {
 		}
 		System.out.println();
 
+//		if (loginedMember.nickName.equals("관리자")) {
+//			while (true) {
+//				System.out.println("관리자 전용 페이지입니다.\n");
+//				System.out.println("리뷰 삭제를 원하시면 1을 입력해주세요.");
+//				System.out.println("이전으로 돌아가시려면 9를 입력해주세요.");
+//				System.out.print("입력 : ");
+//				selectNum = sc.nextInt();
+//				System.out.println();
+//
+//				if (selectNum == 1) {
+//					doManagerDelete();
+//					break;
+//				}else if (selectNum == 9) {
+//					System.out.println("이전 단계로 돌아갑니다.\n");
+//					break;
+//				} else if (selectNum != 1 && selectNum != 9) {
+//					System.out.println("\n다시 입력해주세요.");
+//					continue;
+//				}
+//				break;
+//			}
+//		}
+		
 		System.out.printf("1. 리뷰 작성\n");
 		System.out.printf("2. 리뷰 수정\n");
 		System.out.printf("3. 리뷰 삭제\n");
@@ -184,6 +233,32 @@ public class ReviewController extends Controller {
 			System.out.println("권한이 없습니다.");
 			return;
 		}
+		reviewService.delete(choiceReviewId);
+		System.out.println("리뷰가 삭제되었습니다.");
+	}
+	
+	public void doManagerDelete() {
+		if (Container.getSession().isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.\n");
+			return;
+		}
+
+		Member loginedMember = Container.getSession().getLoginedMember();
+		List<Review> forPrintReviews = reviewService.getReviews();
+		Review review;
+
+		System.out.println(" 번호 | 제목 | 내용 | 닉네임");
+		for (int i = 0; i <= forPrintReviews.size() - 1; i++) {
+			review = forPrintReviews.get(i);
+			System.out.printf("%3d | %s | %s | %s \n", review.id, review.title, review.body, review.name);
+		}
+		System.out.println();
+		System.out.println("리뷰 선택 : ");
+		int choiceReviewId = sc.nextInt();
+
+		Review getReview = reviewService.getReview(choiceReviewId);
+		String nickName = getReview.name;
+
 		reviewService.delete(choiceReviewId);
 		System.out.println("리뷰가 삭제되었습니다.");
 	}
