@@ -10,6 +10,7 @@ import com.moviement.dto.Review;
 import com.moviement.service.MemberService;
 import com.moviement.service.MovieArticleService;
 import com.moviement.service.ReviewService;
+import com.moviement.service.SeatService;
 
 public class MemberController extends Controller {
 	private Scanner sc;
@@ -19,12 +20,13 @@ public class MemberController extends Controller {
 	private MovieArticleService movieArticleService;
 	private ReviewService reviewService;
 	private Session session;
-
+	private SeatService seatService;
 	public MemberController(Scanner isc) {
 		this.sc = isc;
 		memberService = Container.memberService;
 		movieArticleService = Container.movieArticleService;
 		reviewService = Container.reviewService;
+		seatService = Container.seatService;
 		session = Container.getSession();
 	}
 
@@ -35,7 +37,7 @@ public class MemberController extends Controller {
 		
 //		if (loginedMember.nickName.equals("관리자")) {
 //			while (true) {
-//				System.out.println("=== === === A D M I N : M O V I E === === ===");
+//				System.out.println("=== === === A D M I N : M E M B E R === === ===");
 //				System.out.println("\n관리자 전용 페이지입니다.\n");
 //				System.out.println("회원 목록을 보시려면 2을 입력해주세요.");
 //				System.out.println("이전으로 돌아가시려면 9를 입력해주세요.");
@@ -244,6 +246,10 @@ public class MemberController extends Controller {
 		String name = sc.next();
 		
 		String grade = "bronze";
+		
+//		if(seatService.getForPrintSeats(nickName) == null) {
+//			grade = "bronze";
+//		}
 
 		memberService.join(loginId, eMail, nickName, loginPw, name, grade);
 
@@ -436,7 +442,8 @@ public class MemberController extends Controller {
 			break;
 		}
 		System.out.println();
-
+		
+		
 		while (true) {
 			System.out.printf("%s, 좌석 : %s, 환불금액 : %.1f \n",deleteSeat.movieTitle,deleteSeat.seat,deleteSeat.price);
 			System.out.println("1. 예매 취소");

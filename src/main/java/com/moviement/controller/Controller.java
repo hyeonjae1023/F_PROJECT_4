@@ -15,7 +15,7 @@ public abstract class Controller {
 		List<MovieSeat> getForPrintSeat = Container.seatService.getForPrintSeats(loginedMember.nickName);
 		
 		int num = getForPrintSeat.size();
-		if(num >=8) {
+		if(num >= 8) {
 			loginedMember.grade = "VIP";
 		}
 		else if(num >=5 && num < 8) { //5회 이상시 "gold"
@@ -37,7 +37,7 @@ public abstract class Controller {
 		else if(loginedMember.grade.equals("gold")) {
 			return 0.1f;
 		}
-		else if (loginedMember.grade.equals("vip")) {
+		else if (loginedMember.grade.equals("VIP")) {
 			return  0.2f;
 		}
 		return 0;

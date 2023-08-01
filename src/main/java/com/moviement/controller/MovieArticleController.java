@@ -347,7 +347,7 @@ public class MovieArticleController extends Controller {
 					float price = forPrintGetMovieArticles.get(selectNum - 1).price;
 					float personPrice = price - price*dc;
 					
-					System.out.printf("\n선택하신 좌석은 %s, 예매 가격은 %s 할인가 적용 %.2f 입니다.\n\n", Arrays.toString(seatStrArr),grade,personPrice*persons);
+					System.out.printf("\n선택하신 좌석은 %s, 예매 가격은 %s 할인가 적용 %.2f 입니다.\n\n", Arrays.toString(seatStrArr), grade, personPrice*persons);
 					System.out.println("1. 예매하기");
 					System.out.println("9. 이전 단계로\n");
 					System.out.print("입력 : ");
@@ -356,6 +356,7 @@ public class MovieArticleController extends Controller {
 					switch (yesOrNo) {
 					case 1:
 						Container.seatService.doTicketing(movieTitle, seatStrArr, personPrice);
+						setGrade();
 						System.out.println("\n감사합니다. 예매가 완료되었습니다. 예매 내역은 마이 페이지를 확인해주세요.\n");
 						break;
 					case 9:

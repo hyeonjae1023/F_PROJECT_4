@@ -198,7 +198,7 @@ CREATE TABLE movieSeats (
 	movieTitle CHAR(100),
 	nickName CHAR(100) NOT NULL,
 	enabledSeat BOOL,
-	price FLOAT(10, 2) UNSIGNED NOT NULL
+	price FLOAT(10, 2) unsigned NOT NULL
 );
 
 SELECT * FROM movieSeats;

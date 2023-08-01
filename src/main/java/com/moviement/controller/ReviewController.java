@@ -34,7 +34,7 @@ public class ReviewController extends Controller {
 		
 //		if (loginedMember.nickName.equals("관리자")) {
 //			while (true) {
-//				System.out.println("=== === === A D M I N : M O V I E === === ===");
+//				System.out.println("=== === === A D M I N : R E V I E W === === ===");
 //				System.out.println("\n관리자 전용 페이지입니다.\n");
 //				System.out.println("리뷰 목록을 보시려면 1을 입력해주세요.");
 //				System.out.println("이전으로 돌아가시려면 9를 입력해주세요.");
